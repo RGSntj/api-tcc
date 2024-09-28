@@ -4,7 +4,7 @@ const db = await mysql2.createConnection({
     host: "localhost",
     user: "root",
     password: "1234",
-    database: "db_tcc"
+    database: "db_tcc_teste"
 })
 
 console.log("Conexão realizada com sucesso !")

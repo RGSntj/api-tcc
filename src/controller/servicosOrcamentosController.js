@@ -1,27 +1,27 @@
 import { Router } from "express";
 import { criarServicoOrcamento } from '../repository/servicosOrcamentoRepository.js'
 
-import { consultarServicoId } from "../repository/servicoRepository.js";
+// import { consultarServicoId } from "../repository/servicoRepository.js";
+import { alterarPrecoTotal } from "../repository/orcamentoRepository.js";
 
 const endpoints = Router();
 
 endpoints.post("/servicos/orcamentos/:idOrcamento", async (req, resp) => {
     try {
         const { idOrcamento } = req.params;
-        const arrayServicos = req.body.servicos;
-        
-        arrayServicos.map(async (id) => {
-            const servico = await consultarServicoId(id);
+        const { arrayServicos } = req.body;
 
-            if (servico.length <= 0) {
-                throw new Error("Serviço nao encontrado !!")
-            }
-        });
+        await Promise.all(
+            arrayServicos.map(async (id) => {
+                return criarServicoOrcamento(idOrcamento, id);
+            })
+        )
 
-        const resposta = await criarServicoOrcamento(idOrcamento);
+        await alterarPrecoTotal(idOrcamento);
 
-        return resp.send({ resposta });
-    } catch (error) {
+        return resp.status(201).send();
+    }
+    catch (error) {
         // console.log(error);
 
         return resp.status(400).json({

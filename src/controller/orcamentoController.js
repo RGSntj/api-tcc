@@ -20,10 +20,10 @@ endpoints.post("/orcamento", async (req, resp) => {
     }
 })
 
-endpoints.get("/orcamento/consultar", async (req, resp) => {
+endpoints.get("/orcamentos", async (req, resp) => {
     try {
         const resposta = await consultarOrcamentos()
-        
+
         resp.send(resposta)
     } catch (error) {
         console.log(error);
