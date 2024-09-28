@@ -1,10 +1,10 @@
 import db from '../db/connection.js'
 
-export async function criarOrcamento(orcamento) {
+export async function criarOrcamento(descricao) {
     const comando = `INSERT INTO tb_orcamento(data_hora, ds_status, descricao, vl_preco_total)
                             VALUES (SYSDATE(), "Pendente", ?, 0)`;
 
-    const resposta = await db.query(comando, [orcamento.status, orcamento.descricao]);
+    const resposta = await db.query(comando, [descricao]);
     return resposta[0].insertId;
 }
 

@@ -2,14 +2,15 @@ import { Router } from "express";
 import { criarServicoOrcamento } from '../repository/servicosOrcamentoRepository.js'
 
 // import { consultarServicoId } from "../repository/servicoRepository.js";
-import { alterarPrecoTotal } from "../repository/orcamentoRepository.js";
+import { alterarPrecoTotal, criarOrcamento } from "../repository/orcamentoRepository.js";
 
 const endpoints = Router();
 
-endpoints.post("/servicos/orcamentos/:idOrcamento", async (req, resp) => {
+endpoints.post("/servicos/orcamentos", async (req, resp) => {
+    const { descricao, arrayServicos } = req.body;
+
     try {
-        const { idOrcamento } = req.params;
-        const { arrayServicos } = req.body;
+        const idOrcamento = await criarOrcamento(descricao);
 
         await Promise.all(
             arrayServicos.map(async (id) => {
